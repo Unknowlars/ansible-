@@ -1,19 +1,16 @@
 ---
-- name: Scan for available Windows updates
+- name: Manage Windows Updates
   hosts: windows
   gather_facts: no
   tasks:
-    - name: Scan for available updates without installing
+    - name: Check for and install critical and security updates
       win_updates:
-        search_only: yes
-      register: update_scan
+        category_names:
+          - CriticalUpdates
+          - SecurityUpdates
+        reboot: yes
+      register: update_results
 
-    - name: Display available updates
+    - name: Display update results
       debug:
-        msg: >
-          {% if update_scan.updates %}
-            The following updates are available:
-            {{ update_scan.updates }}
-          {% else %}
-            No updates available.
-          {% endif %}
+        var: update_results
