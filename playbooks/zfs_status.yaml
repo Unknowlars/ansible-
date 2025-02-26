@@ -1,0 +1,15 @@
+---
+- name: Check ZFS space usage for big_data and SSD
+  hosts: all
+  become: yes
+  gather_facts: no
+
+  tasks:
+    - name: List ZFS space usage for big_data and SSD
+      command: zfs list -o space big_data SSD
+      register: zfs_space
+      changed_when: false
+
+    - name: Display ZFS space usage output
+      debug:
+        msg: "{{ zfs_space.stdout }}"
