@@ -1,6 +1,6 @@
 ---
 - name: Check disk space on Ubuntu server
-  hosts: "LXC - Valby"
+  hosts: "192.168.0.221"
   become: yes
   tasks:
     - name: Check disk space using df -h
