@@ -1,5 +1,5 @@
 ---
-- name: Ensure folder C:\repo\test exists on Windows
+- name: Ensure folder C:\repo\test exists on Windows with detailed output
   hosts: windows
   gather_facts: no
   tasks:
@@ -7,3 +7,14 @@
       win_file:
         path: C:\repo\test
         state: directory
+      register: folder_result
+
+    - name: Display folder creation result
+      debug:
+        msg: >
+          Folder 'C:\repo\test' 
+          {% if folder_result.changed %}
+            has been created.
+          {% else %}
+            already exists.
+          {% endif %}
