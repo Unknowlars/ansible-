@@ -1,6 +1,6 @@
 ---
 - name: Check Docker Container Health
-  hosts: all
+  hosts: lxc_container
   become: yes
   gather_facts: no
 
@@ -11,7 +11,8 @@
       changed_when: false
 
     - name: Check health status for each container
-      command: "docker inspect --format='{{.Name}}: {{if .State.Health}}{{.State.Health.Status}}{{else}}no health check defined{{end}}' {{ item }}"
+      command: >
+        docker inspect --format='{% raw %}{{.Name}}: {{if .State.Health}}{{.State.Health.Status}}{{else}}no health check defined{{end}}{% endraw %}' {{ item }}
       loop: "{{ running_containers.stdout_lines }}"
       register: container_health
       changed_when: false
