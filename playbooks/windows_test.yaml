@@ -1,0 +1,17 @@
+---
+- name: Check if C:\repo exists on Windows
+  hosts: windows
+  gather_facts: no
+  tasks:
+    - name: Run PowerShell command to check for C:\repo
+      win_shell: |
+        if (Test-Path -Path "C:\repo") {
+          Write-Output "Exists"
+        } else {
+          Write-Output "Does not exist"
+        }
+      register: repo_status
+
+    - name: Display the repository status
+      debug:
+        msg: "C:\repo status: {{ repo_status.stdout }}"
