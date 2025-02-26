@@ -1,3 +1,4 @@
+---
 - name: Check Docker Container Health
   hosts: all
   become: yes
@@ -10,7 +11,7 @@
       changed_when: false
 
     - name: Check health status for each container
-      command: docker inspect --format='{{.Name}}: {{if .State.Health}}{{.State.Health.Status}}{{else}}no health check defined{{end}}' {{ item }}
+      command: "docker inspect --format='{{.Name}}: {{if .State.Health}}{{.State.Health.Status}}{{else}}no health check defined{{end}}' {{ item }}"
       loop: "{{ running_containers.stdout_lines }}"
       register: container_health
       changed_when: false
