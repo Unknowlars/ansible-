@@ -2,7 +2,15 @@
 - name: Update apt package cache on Ubuntu server
   hosts: "all"
   become: yes
+  gather_facts: yes
   tasks:
-    - name: Update apt package cache
-      ansible.builtin.apt:
-        update_cache: yes
+    - name: Run apt update command
+      ansible.builtin.shell: apt update
+      register: apt_update_output
+      changed_when: false
+
+    - name: Display command prompt and apt update output
+      ansible.builtin.debug:
+        msg: |
+          root@{{ ansible_hostname }}:~/.ssh# apt update
+          {{ apt_update_output.stdout }}
