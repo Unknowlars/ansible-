@@ -1,0 +1,15 @@
+---
+- name: Run apt upgrade and display formatted output
+  hosts: "all"
+  become: yes
+  gather_facts: yes
+  tasks:
+    - name: Run apt upgrade command
+      ansible.builtin.shell: apt upgrade -y
+      register: apt_upgrade_output
+      changed_when: false
+
+    - name: Display command prompt and apt upgrade output
+      ansible.builtin.debug:
+        msg: |
+          {{ apt_upgrade_output.stdout }}
