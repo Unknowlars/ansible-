@@ -1,0 +1,9 @@
+---
+- name: Ensure folder C:\repo\test exists on Windows
+  hosts: windows
+  gather_facts: no
+  tasks:
+    - name: Create folder C:\repo\test if it does not exist
+      win_file:
+        path: C:\repo\test
+        state: directory
