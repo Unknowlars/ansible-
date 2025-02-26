@@ -12,5 +12,4 @@
     - name: Display command prompt and apt update output
       ansible.builtin.debug:
         msg: |
-          root@{{ ansible_hostname }}:~/.ssh# apt update
           {{ apt_update_output.stdout }}
