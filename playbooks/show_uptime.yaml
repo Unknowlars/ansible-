@@ -1,0 +1,15 @@
+---
+- name: Show Windows System Uptime
+  hosts: windows
+  gather_facts: no
+  tasks:
+    - name: Retrieve system uptime
+      win_shell: |
+        $bootTime = (Get-CimInstance -ClassName Win32_OperatingSystem).LastBootUpTime
+        $uptime = (Get-Date) - $bootTime
+        Write-Output "Days: $($uptime.Days), Hours: $($uptime.Hours), Minutes: $($uptime.Minutes), Seconds: $($uptime.Seconds)"
+      register: uptime_result
+
+    - name: Display system uptime
+      debug:
+        msg: "System uptime is: {{ uptime_result.stdout }}"
