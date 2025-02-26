@@ -1,0 +1,13 @@
+---
+- name: Check disk space on Ubuntu server
+  hosts: LXC - Valby
+  become: yes
+  tasks:
+    - name: Check disk space using df -h
+      ansible.builtin.shell: df -h
+      register: disk_space_output
+      changed_when: false
+
+    - name: Display disk space information
+      ansible.builtin.debug:
+        var: disk_space_output.stdout_lines
