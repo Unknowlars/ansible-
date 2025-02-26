@@ -1,6 +1,6 @@
 ---
 - name: Check if C:\repo exists on Windows
-  hosts: windows
+  hosts: all
   gather_facts: no
   tasks:
     - name: Run PowerShell command to check for C:\repo
