@@ -1,0 +1,12 @@
+---
+- name: Run Docker system prune
+  hosts: all
+  become: yes
+  tasks:
+    - name: Execute docker system prune
+      command: docker system prune -f
+      register: prune_result
+
+    - name: Display Docker system prune output
+      debug:
+        msg: "{{ prune_result.stdout }}"
