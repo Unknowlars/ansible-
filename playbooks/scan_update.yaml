@@ -1,0 +1,19 @@
+---
+- name: Scan for available Windows updates
+  hosts: windows
+  gather_facts: no
+  tasks:
+    - name: Scan for available updates without installing
+      win_updates:
+        search_only: yes
+      register: update_scan
+
+    - name: Display available updates
+      debug:
+        msg: >
+          {% if update_scan.updates %}
+            The following updates are available:
+            {{ update_scan.updates }}
+          {% else %}
+            No updates available.
+          {% endif %}
