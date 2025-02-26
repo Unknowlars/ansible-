@@ -1,16 +1,19 @@
 ---
-- name: Manage Windows Updates
+- name: Scan for available Windows updates
   hosts: windows
   gather_facts: no
   tasks:
-    - name: Check for and install critical and security updates
-      win_updates:
-        category_names:
-          - CriticalUpdates
-          - SecurityUpdates
-        reboot: yes
-      register: update_results
+    - name: Search for available updates without installing them
+      ansible.windows.win_updates:
+        state: searched
+      register: update_scan
 
-    - name: Display update results
+    - name: Display update scan results
       debug:
-        var: update_results
+        msg: >
+          {% if update_scan.found_update_count > 0 %}
+            Found {{ update_scan.found_update_count }} updates:
+            {{ update_scan.updates | to_nice_json }}
+          {% else %}
+            No updates available.
+          {% endif %}
